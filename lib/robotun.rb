@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require 'logger'
-require 'zeitwerk'
+require "logger"
+require "zeitwerk"
 Zeitwerk::Loader.for_gem.setup
 
+# Main module for the gem.
 module Robotun
   class Error < StandardError; end
 
@@ -14,7 +15,7 @@ module Robotun
   end
 
   def logger
-    @logger ||= Logger.new(STDOUT)
+    @logger ||= Logger.new($stdout)
   end
 
   def logger=(logger)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Robotun
+  # Represents the field where the robot moves.
   class Field
     DEFAULT_WIDTH = 5
     DEFAULT_HEIGHT = 5
@@ -12,7 +13,7 @@ module Robotun
       @height = height || DEFAULT_HEIGHT
     end
 
-    def out_of_bounds?(x, y)
+    def out_of_bounds?(x, y) # rubocop:disable Naming/MethodParameterName
       x.negative? || y.negative? || x >= width || y >= height
     end
   end
