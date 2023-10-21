@@ -59,3 +59,10 @@ REPORT
 0,0,WEST
 3,3,NORTH
 ```
+
+## How to run
+
+1. Clone repo
+2. `asdf install` (or similar for your version manager)
+3. `bundle install`
+4. `exe/robotun commands.txt`
