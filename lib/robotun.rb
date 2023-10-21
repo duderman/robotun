@@ -11,7 +11,7 @@ module Robotun
   module_function
 
   def run
-    Input.new.each_line { puts _1 }
+    Runner.new.run
   end
 
   def logger

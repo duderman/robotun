@@ -1,16 +1,16 @@
 RSpec.describe Robotun::Commands do
-  describe ".for" do
+  describe ".command_class_for" do
     it "returns command class" do
-      expect(described_class.for("PLACE")).to eq described_class::Place
-      expect(described_class.for("MOVE")).to eq described_class::Move
-      expect(described_class.for("LEFT")).to eq described_class::Left
-      expect(described_class.for("RIGHT")).to eq described_class::Right
-      expect(described_class.for("REPORT")).to eq described_class::Report
+      expect(described_class.command_class_for("PLACE")).to eq described_class::Place
+      expect(described_class.command_class_for("MOVE")).to eq described_class::Move
+      expect(described_class.command_class_for("LEFT")).to eq described_class::Left
+      expect(described_class.command_class_for("RIGHT")).to eq described_class::Right
+      expect(described_class.command_class_for("REPORT")).to eq described_class::Report
     end
 
     context "with unknown command" do
       it "raises error" do
-        expect { described_class.for("UNKNOWN") }.to raise_error(described_class::UnknownCommandError)
+        expect { described_class.command_class_for("UNKNOWN") }.to raise_error(described_class::UnknownCommandError)
       end
     end
   end

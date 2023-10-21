@@ -4,7 +4,11 @@ module Robotun
 
     module_function
 
-    def for(command)
+    def run(command, field, current_position, args = [])
+      command_class_for(command).run(field, current_position, args)
+    end
+
+    def command_class_for(command)
       case command
       when "PLACE"
         Place
