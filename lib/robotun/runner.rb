@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Robotun
+  # Runs commands one by one.
   class Runner
     def initialize(input = nil)
       @field = Field.new
@@ -7,12 +10,12 @@ module Robotun
     end
 
     def run
-      @input.each_line(&method(:process_line))
+      @input.each_line { run_command(_1) }
     end
 
     private
 
-    def process_line(line)
+    def run_command(line)
       command, args = line.strip.split(/\s+/)
       args = args.split(",") if args
 

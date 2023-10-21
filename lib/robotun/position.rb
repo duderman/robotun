@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Robotun
   # Represents the position of the robot.
   class Position
@@ -7,8 +9,9 @@ module Robotun
 
     attr_reader :x, :y, :direction
 
-    def initialize(x, y, direction)
+    def initialize(x, y, direction) # rubocop:disable Naming/MethodParameterName
       raise InvalidDirectionError unless DIRECTIONS.include?(direction)
+
       @x = x
       @y = y
       @direction = direction

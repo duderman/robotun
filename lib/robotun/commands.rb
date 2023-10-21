@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Style/Documentation
 module Robotun
   module Commands
     UnknownCommandError = Class.new(Robotun::Error)
@@ -5,24 +8,7 @@ module Robotun
     module_function
 
     def run(command, field, current_position, args = [])
-      command_class_for(command).run(field, current_position, args)
-    end
-
-    def command_class_for(command)
-      case command
-      when "PLACE"
-        Place
-      when "MOVE"
-        Move
-      when "LEFT"
-        Left
-      when "RIGHT"
-        Right
-      when "REPORT"
-        Report
-      else
-        raise UnknownCommandError, "Unknown command: #{command}"
-      end
+      command_class_for(command.to_s.upcase).run(field, current_position, args)
     end
 
     class Base
@@ -45,7 +31,7 @@ module Robotun
 
         return new_position unless field.out_of_bounds?(new_position.x, new_position.y)
 
-        Robotun.logger.warn("New position is out of bounds (#{new_position.to_s})")
+        Robotun.logger.warn("New position is out of bounds (#{new_position})")
         current_position
       end
 
@@ -94,7 +80,7 @@ module Robotun
     end
 
     class Move < SimpleCommand
-      def calculate_new_position
+      def calculate_new_position # rubocop:disable Metrics/AbcSize
         case current_position.direction
         when "NORTH"
           Position.new(current_position.x, current_position.y + 1, current_position.direction)
@@ -108,33 +94,35 @@ module Robotun
       end
     end
 
-    class Left < SimpleCommand
+    class Rotation < SimpleCommand
       def calculate_new_position
-        case current_position.direction
-        when "NORTH"
-          Position.new(current_position.x, current_position.y, "WEST")
-        when "EAST"
-          Position.new(current_position.x, current_position.y, "NORTH")
-        when "SOUTH"
-          Position.new(current_position.x, current_position.y, "EAST")
-        when "WEST"
-          Position.new(current_position.x, current_position.y, "SOUTH")
-        end
+        Position.new(current_position.x, current_position.y, new_direction)
+      end
+
+      private
+
+      def new_direction
+        Position::DIRECTIONS[(Position::DIRECTIONS.index(current_position.direction) + turn) % 4]
+      end
+
+      def turn
+        raise NotImplementedError
       end
     end
 
-    class Right < SimpleCommand
-      def calculate_new_position
-        case current_position.direction
-        when "NORTH"
-          Position.new(current_position.x, current_position.y, "EAST")
-        when "EAST"
-          Position.new(current_position.x, current_position.y, "SOUTH")
-        when "SOUTH"
-          Position.new(current_position.x, current_position.y, "WEST")
-        when "WEST"
-          Position.new(current_position.x, current_position.y, "NORTH")
-        end
+    class Left < Rotation
+      private
+
+      def turn
+        -1
+      end
+    end
+
+    class Right < Rotation
+      private
+
+      def turn
+        1
       end
     end
 
@@ -145,5 +133,20 @@ module Robotun
         current_position
       end
     end
+
+    COMMANDS_CLASSES = {
+      "PLACE" => Place,
+      "MOVE" => Move,
+      "LEFT" => Left,
+      "RIGHT" => Right,
+      "REPORT" => Report
+    }.freeze
+
+    def command_class_for(command)
+      COMMANDS_CLASSES.fetch(command) do
+        raise UnknownCommandError, "Unknown command: #{command}"
+      end
+    end
   end
 end
+# rubocop:enable Style/Documentation

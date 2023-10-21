@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Robotun::Position do
   describe "#initialize" do
     it "sets x, y and direction" do
@@ -7,9 +9,9 @@ RSpec.describe Robotun::Position do
       expect(position.direction).to eq "NORTH"
     end
 
-    context 'with unknown direction' do
-      it 'raises error' do
-        expect { described_class.new(1, 2, 'UNKNOWN') }.to raise_error(Robotun::Position::InvalidDirectionError)
+    context "with unknown direction" do
+      it "raises error" do
+        expect { described_class.new(1, 2, "UNKNOWN") }.to raise_error(Robotun::Position::InvalidDirectionError)
       end
     end
   end
@@ -22,13 +24,13 @@ RSpec.describe Robotun::Position do
   end
 
   describe "#==" do
+    let(:position) { described_class.new(1, 2, "NORTH") }
+
     it "compares x, y and direction" do
-      position1 =
-      position2 = described_class.new(1, 2, "NORTH")
-      expect(described_class.new(1, 2, "NORTH")).to eq described_class.new(1, 2, "NORTH")
-      expect(described_class.new(1, 2, "NORTH")).not_to eq described_class.new(2, 2, "NORTH")
-      expect(described_class.new(1, 2, "NORTH")).not_to eq described_class.new(1, 1, "NORTH")
-      expect(described_class.new(1, 2, "NORTH")).not_to eq described_class.new(1, 1, "SOUTH")
+      expect(position).to eq described_class.new(1, 2, "NORTH")
+      expect(position).not_to eq described_class.new(2, 2, "NORTH")
+      expect(position).not_to eq described_class.new(1, 1, "NORTH")
+      expect(position).not_to eq described_class.new(1, 1, "SOUTH")
     end
   end
 end

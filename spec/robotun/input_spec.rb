@@ -24,6 +24,7 @@ RSpec.describe Robotun::Input do
     context "when no data" do
       before do
         allow(ARGF).to receive(:filename).and_return("-")
+        allow(Robotun.logger).to receive(:error)
       end
 
       it "does nothing" do
