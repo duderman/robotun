@@ -4,7 +4,12 @@ module Robotun
   # Reads input from ARGF.
   class Input
     def each_line
-      return if !block_given? || no_data?
+      return unless block_given?
+
+      if no_data?
+        Robotun.logger.error "No data!"
+        return
+      end
 
       ARGF.each_line do |line|
         yield line.chomp
