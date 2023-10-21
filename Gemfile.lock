@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     robotun (0.1.0)
+      zeitwerk (~> 2.6)
 
 GEM
   remote: https://rubygems.org/
@@ -62,6 +63,7 @@ GEM
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
     unicode-display_width (2.4.2)
+    zeitwerk (2.6.10)
 
 PLATFORMS
   arm64-darwin-22
