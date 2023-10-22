@@ -16,8 +16,7 @@ module Robotun
     private
 
     def run_command(line)
-      command, args = line.strip.split(/\s+/)
-      args = args.split(",") if args
+      command, args = Parser.parse_line(line)
 
       @current_position = Commands.run(command, @field, @current_position, args)
     rescue Commands::UnknownCommandError => e
