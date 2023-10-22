@@ -66,3 +66,17 @@ REPORT
 2. `asdf install` (or similar for your version manager)
 3. `bundle install`
 4. `exe/robotun commands.txt`
+
+OR:
+
+4. `gem build robotun.gemspec`
+5. `gem install ./robotun-0.1.0.gem`
+6. Rehash your version manager binaries
+7. `robotun commands.txt`
+
+## TODO
+
+- [ ] Separate logging and reporting output
+- [ ] Separate configure method and config singleton class to hold logger, output etc
+- [ ] Only use ARGF when running from a bin, leaving an option to actually use code as a gem
+- [ ] Output option when running as a bin (to be able to use files or whatever)
